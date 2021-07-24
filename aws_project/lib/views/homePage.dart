@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:aws_project/models/productModel.dart';
+import 'package:aws_project/views/createProductPage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -13,6 +13,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  void _createProduct() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => CreateProductPage()));
+  }
+
   Future<List> _listProducts() async {
     var _url = Uri.parse(
         'https://2zdjuu605f.execute-api.us-east-1.amazonaws.com/prod/products');
@@ -35,11 +40,17 @@ class _HomePageState extends State<HomePage> {
 
   Widget _homeConstruct() {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Produtos'),
-      ),
-      body: Container(color: Colors.white, child: _listProductsConstruct()),
-    );
+        appBar: AppBar(
+          title: Text('Produtos'),
+        ),
+        body: Container(color: Colors.white, child: _listProductsConstruct()),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _createProduct();
+          },
+          child: const Icon(Icons.add),
+          backgroundColor: Colors.green,
+        ));
   }
 
   Widget _listProductsConstruct() {
