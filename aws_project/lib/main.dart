@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'AWS APP',
       theme: ThemeData(
-          primarySwatch: Colors.blueGrey,
+          primarySwatch: Colors.deepPurple,
           scaffoldBackgroundColor: Colors.white),
       home: HomePage(),
     );
