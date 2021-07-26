@@ -18,6 +18,27 @@ class _HomePageState extends State<HomePage> {
         context, MaterialPageRoute(builder: (context) => CreateProductPage()));
   }
 
+  Future _deleteProduct(String id) async {
+    var _url = Uri.parse(
+        'https://2zdjuu605f.execute-api.us-east-1.amazonaws.com/prod/product');
+
+    Map<String, String> _headers = {
+      'Content-Type': 'application/json; charset=UTF-8'
+    };
+
+    var _body = jsonEncode(<String, String>{
+      'id': id,
+    });
+
+    var response = await http.delete(_url, headers: _headers, body: _body);
+
+    if (response.statusCode == 200) {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
+    } else
+      throw Exception("Erro excluir produto no servidor");
+  }
+
   Future<List> _listProducts() async {
     var _url = Uri.parse(
         'https://2zdjuu605f.execute-api.us-east-1.amazonaws.com/prod/products');
@@ -72,7 +93,20 @@ class _HomePageState extends State<HomePage> {
                             NetworkImage(snapshot.data![index]['image'])),
                     title: Text(snapshot.data![index]['nome']),
                     subtitle: Text(snapshot.data![index]['descricao']),
-                    trailing: Text(snapshot.data![index]['preco'].toString()));
+                    trailing: ElevatedButton(
+                      onPressed: () {
+                        _deleteProduct(snapshot.data![index]['id']);
+                      },
+                      style: ElevatedButton.styleFrom(
+                          primary: Colors.red,
+                          onPrimary: Colors.white,
+                          minimumSize: Size(50, 50),
+                          elevation: 6,
+                          shadowColor: Colors.black,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15))),
+                      child: const Icon(Icons.delete),
+                    ));
               });
         }
 
