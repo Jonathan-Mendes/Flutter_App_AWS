@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:aws_project/views/createProductPage.dart';
+
+enum ListAction { edit, delete }
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,6 +19,43 @@ class _HomePageState extends State<HomePage> {
   void _createProduct() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => CreateProductPage()));
+  }
+
+  Future _showDeleteDialog(BuildContext context, String id, String nome) async {
+    return await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext ctx) {
+          return AlertDialog(
+            title: Text('Excluir Produto'),
+            content: Container(
+              child: Text(
+                  'Produto: ${nome} \n\n Você realmente deseja excluir este produto?'),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                  child: Text('Sim'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                    onPrimary: Colors.white,
+                    textStyle: TextStyle(color: Colors.black, fontSize: 15),
+                  ),
+                  onPressed: () {
+                    _deleteProduct(id);
+                  }),
+              ElevatedButton(
+                  child: Text('Não'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red,
+                    onPrimary: Colors.white,
+                    textStyle: TextStyle(color: Colors.black, fontSize: 15),
+                  ),
+                  onPressed: () {
+                    Navigator.of(ctx).pop(false);
+                  })
+            ],
+          );
+        });
   }
 
   Future _deleteProduct(String id) async {
@@ -87,26 +127,45 @@ class _HomePageState extends State<HomePage> {
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                    leading: CircleAvatar(
-                        backgroundColor: Colors.transparent,
-                        backgroundImage:
-                            NetworkImage(snapshot.data![index]['image'])),
-                    title: Text(snapshot.data![index]['nome']),
-                    subtitle: Text(snapshot.data![index]['descricao']),
-                    trailing: ElevatedButton(
-                      onPressed: () {
-                        _deleteProduct(snapshot.data![index]['id']);
-                      },
-                      style: ElevatedButton.styleFrom(
-                          primary: Colors.red,
-                          onPrimary: Colors.white,
-                          minimumSize: Size(50, 50),
-                          elevation: 6,
-                          shadowColor: Colors.black,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15))),
-                      child: const Icon(Icons.delete),
-                    ));
+                  leading: Icon(Icons.wallpaper_rounded,
+                      size: 45, color: Colors.deepPurple),
+                  title: Text(snapshot.data![index]['nome']),
+                  subtitle: Text(snapshot.data![index]['descricao']),
+                  trailing: PopupMenuButton<ListAction>(
+                    onSelected: (ListAction result) async {
+                      switch (result) {
+                        case ListAction.edit:
+                          break;
+                        case ListAction.delete:
+                          _showDeleteDialog(
+                              context,
+                              snapshot.data![index]['id'],
+                              snapshot.data![index]['nome']);
+                          break;
+                      }
+                    },
+                    itemBuilder: (BuildContext context) {
+                      return <PopupMenuEntry<ListAction>>[
+                        PopupMenuItem<ListAction>(
+                          value: ListAction.edit,
+                          child: Row(children: <Widget>[
+                            Icon(Icons.edit, color: Colors.orange),
+                            Text('Editar',
+                                style: TextStyle(color: Colors.black))
+                          ]),
+                        ),
+                        PopupMenuItem<ListAction>(
+                          value: ListAction.delete,
+                          child: Row(children: <Widget>[
+                            Icon(Icons.delete, color: Colors.red),
+                            Text('Remover',
+                                style: TextStyle(color: Colors.black))
+                          ]),
+                        )
+                      ];
+                    },
+                  ),
+                );
               });
         }
 
