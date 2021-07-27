@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:aws_project/views/createProductPage.dart';
+import 'package:aws_project/views/editProductPage.dart';
 
 enum ListAction { edit, delete }
 
@@ -19,6 +20,11 @@ class _HomePageState extends State<HomePage> {
   void _createProduct() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => CreateProductPage()));
+  }
+
+  void _editProduct() {
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => EditProductPage()));
   }
 
   Future _showDeleteDialog(BuildContext context, String id, String nome) async {
@@ -135,6 +141,7 @@ class _HomePageState extends State<HomePage> {
                     onSelected: (ListAction result) async {
                       switch (result) {
                         case ListAction.edit:
+                          _editProduct();
                           break;
                         case ListAction.delete:
                           _showDeleteDialog(
