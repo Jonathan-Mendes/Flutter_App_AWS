@@ -22,9 +22,11 @@ class _HomePageState extends State<HomePage> {
         context, MaterialPageRoute(builder: (context) => CreateProductPage()));
   }
 
-  void _editProduct() {
+  void _editProduct(Map<String, dynamic> data) {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => EditProductPage()));
+        context,
+        MaterialPageRoute(
+            builder: (context) => EditProductPage(product: data)));
   }
 
   Future _showDeleteDialog(BuildContext context, String id, String nome) async {
@@ -141,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                     onSelected: (ListAction result) async {
                       switch (result) {
                         case ListAction.edit:
-                          _editProduct();
+                          _editProduct(snapshot.data![index]);
                           break;
                         case ListAction.delete:
                           _showDeleteDialog(
@@ -157,16 +159,24 @@ class _HomePageState extends State<HomePage> {
                           value: ListAction.edit,
                           child: Row(children: <Widget>[
                             Icon(Icons.edit, color: Colors.orange),
-                            Text('Editar',
-                                style: TextStyle(color: Colors.black))
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text('Editar',
+                                  style: TextStyle(color: Colors.black)),
+                            )
                           ]),
                         ),
                         PopupMenuItem<ListAction>(
                           value: ListAction.delete,
                           child: Row(children: <Widget>[
                             Icon(Icons.delete, color: Colors.red),
-                            Text('Remover',
-                                style: TextStyle(color: Colors.black))
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text('Excluir',
+                                  style: TextStyle(color: Colors.black)),
+                            )
                           ]),
                         )
                       ];
