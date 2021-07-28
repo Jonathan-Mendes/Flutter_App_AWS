@@ -70,70 +70,84 @@ class _CreateProductPageState extends State<CreateProductPage> {
 
   Widget _formConstruct() {
     return Form(
-      // key: _formKey,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          TextFormField(
-            controller: _codProd,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: 'Código',
-              labelStyle: TextStyle(
-                color: Colors.black38,
-                fontSize: 18,
-              ),
-            ),
-            style: TextStyle(fontSize: 15),
-          ),
-          TextFormField(
-            controller: _nameProd,
-            keyboardType: TextInputType.text,
-            decoration: InputDecoration(
-              labelText: 'Nome',
-              labelStyle: TextStyle(
-                color: Colors.black38,
-                fontSize: 18,
-              ),
-            ),
-            style: TextStyle(fontSize: 15),
-          ),
-          TextFormField(
-            controller: _descProd,
-            keyboardType: TextInputType.text,
-            decoration: InputDecoration(
-              labelText: 'Descrição',
-              labelStyle: TextStyle(
-                color: Colors.black38,
-                fontSize: 18,
-              ),
-            ),
-            style: TextStyle(fontSize: 15),
-          ),
-          TextFormField(
-            controller: _valueProd,
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              labelText: 'Valor',
-              labelStyle: TextStyle(
-                color: Colors.black38,
-                fontSize: 18,
-              ),
-            ),
-            style: TextStyle(fontSize: 15),
-          ),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: TextFormField(
+                controller: _codProd,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  labelText: 'Código',
+                  labelStyle: TextStyle(
+                    color: Colors.black38,
+                    fontSize: 18,
+                  ),
+                ),
+                style: TextStyle(fontSize: 15),
+              )),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: TextFormField(
+                controller: _nameProd,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  labelText: 'Nome',
+                  labelStyle: TextStyle(
+                    color: Colors.black38,
+                    fontSize: 18,
+                  ),
+                ),
+                style: TextStyle(fontSize: 15),
+              )),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: TextFormField(
+                controller: _descProd,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  labelText: 'Descrição',
+                  labelStyle: TextStyle(
+                    color: Colors.black38,
+                    fontSize: 18,
+                  ),
+                ),
+                style: TextStyle(fontSize: 15),
+              )),
+          Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              child: TextFormField(
+                controller: _valueProd,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  labelText: 'Valor',
+                  labelStyle: TextStyle(
+                    color: Colors.black38,
+                    fontSize: 18,
+                  ),
+                ),
+                style: TextStyle(fontSize: 15),
+              )),
           Padding(
               padding: const EdgeInsets.symmetric(vertical: 20),
-              child: ElevatedButton(
-                  child: Text('Salvar'),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.green,
-                    onPrimary: Colors.white,
-                    textStyle: TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                  onPressed: () {
-                    _save();
-                  })),
+              child: Container(
+                height: 50,
+                padding: EdgeInsets.symmetric(horizontal: 40),
+                alignment: Alignment.center,
+                child: SizedBox.expand(
+                    child: ElevatedButton(
+                        child: Text('Salvar'),
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.green,
+                          onPrimary: Colors.white,
+                          textStyle:
+                              TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                        onPressed: () {
+                          _save();
+                        })),
+              )),
         ],
       ),
     );
