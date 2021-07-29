@@ -43,8 +43,8 @@ class _CreateProductPageState extends State<CreateProductPage> {
     var response = await http.post(_url, headers: _headers, body: _body);
 
     if (response.statusCode == 201) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => HomePage()));
+      Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (BuildContext context) => HomePage()));
     } else
       throw Exception("Erro criar produto no servidor");
   }

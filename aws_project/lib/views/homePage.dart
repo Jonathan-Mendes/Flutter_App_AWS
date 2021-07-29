@@ -141,44 +141,47 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _homeConstruct() {
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      appBar: AppBar(
-        title: Text('Lista de Produtos'),
-      ),
-      body: Container(color: Colors.white, child: _listProductsConstruct()),
-      floatingActionButton: ExpandableFab(
-        distance: 112.0,
-        children: [
-          ActionButton(
-            // onPressed: () => _showAction(context, 1),
-            icon: const Icon(
-              Icons.receipt_long,
-              color: Colors.white,
-            ),
+    return WillPopScope(
+        onWillPop: () async => false,
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(
+            title: Text('Lista de Produtos'),
+            automaticallyImplyLeading: false,
           ),
-          ActionButton(
-            onPressed: () => {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (BuildContext context) => super.widget))
-            },
-            icon: const Icon(
-              Icons.sync_sharp,
-              color: Colors.white,
-            ),
+          body: Container(color: Colors.white, child: _listProductsConstruct()),
+          floatingActionButton: ExpandableFab(
+            distance: 112.0,
+            children: [
+              ActionButton(
+                // onPressed: () => _showAction(context, 1),
+                icon: const Icon(
+                  Icons.info_outlined,
+                  color: Colors.white,
+                ),
+              ),
+              ActionButton(
+                onPressed: () => {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (BuildContext context) => super.widget))
+                },
+                icon: const Icon(
+                  Icons.sync_sharp,
+                  color: Colors.white,
+                ),
+              ),
+              ActionButton(
+                onPressed: () => _createProduct(),
+                icon: const Icon(
+                  Icons.add,
+                  color: Colors.white,
+                ),
+              ),
+            ],
           ),
-          ActionButton(
-            onPressed: () => _createProduct(),
-            icon: const Icon(
-              Icons.add,
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
-    );
+        ));
   }
 
   Widget _listProductsConstruct() {
@@ -230,61 +233,68 @@ class _HomePageState extends State<HomePage> {
         }
 
         if (snapshot.hasData) {
-          return ListView.builder(
-              itemCount: snapshot.data!.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  leading: Icon(Icons.wallpaper_rounded,
-                      size: 45, color: Colors.red),
-                  title: Text(snapshot.data![index]['nome']),
-                  subtitle: Text(snapshot.data![index]['descricao'] +
-                      '\n' +
-                      formatUtil.formatMoney(snapshot.data![index]['preco'])),
-                  trailing: PopupMenuButton<ListAction>(
-                    onSelected: (ListAction result) async {
-                      switch (result) {
-                        case ListAction.edit:
-                          _editProduct(snapshot.data![index]);
-                          break;
-                        case ListAction.delete:
-                          _showDeleteDialog(
-                              context,
-                              snapshot.data![index]['id'],
-                              snapshot.data![index]['nome']);
-                          break;
-                      }
-                    },
-                    itemBuilder: (BuildContext context) {
-                      return <PopupMenuEntry<ListAction>>[
-                        PopupMenuItem<ListAction>(
-                          value: ListAction.edit,
-                          child: Row(children: <Widget>[
-                            Icon(Icons.edit, color: Colors.orange),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Text('Editar',
-                                  style: TextStyle(color: Colors.black)),
-                            )
-                          ]),
-                        ),
-                        PopupMenuItem<ListAction>(
-                          value: ListAction.delete,
-                          child: Row(children: <Widget>[
-                            Icon(Icons.delete, color: Colors.red),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Text('Excluir',
-                                  style: TextStyle(color: Colors.black)),
-                            )
-                          ]),
-                        )
-                      ];
-                    },
-                  ),
-                );
-              });
+          return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 7),
+                        child: ListTile(
+                          leading: Icon(Icons.wallpaper_rounded,
+                              size: 45, color: Colors.red),
+                          title: Text(snapshot.data![index]['nome']),
+                          subtitle: Text(snapshot.data![index]['descricao'] +
+                              '\n' +
+                              formatUtil
+                                  .formatMoney(snapshot.data![index]['preco'])),
+                          trailing: PopupMenuButton<ListAction>(
+                            onSelected: (ListAction result) async {
+                              switch (result) {
+                                case ListAction.edit:
+                                  _editProduct(snapshot.data![index]);
+                                  break;
+                                case ListAction.delete:
+                                  _showDeleteDialog(
+                                      context,
+                                      snapshot.data![index]['id'],
+                                      snapshot.data![index]['nome']);
+                                  break;
+                              }
+                            },
+                            itemBuilder: (BuildContext context) {
+                              return <PopupMenuEntry<ListAction>>[
+                                PopupMenuItem<ListAction>(
+                                  value: ListAction.edit,
+                                  child: Row(children: <Widget>[
+                                    Icon(Icons.edit, color: Colors.orange),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: Text('Editar',
+                                          style:
+                                              TextStyle(color: Colors.black)),
+                                    )
+                                  ]),
+                                ),
+                                PopupMenuItem<ListAction>(
+                                  value: ListAction.delete,
+                                  child: Row(children: <Widget>[
+                                    Icon(Icons.delete, color: Colors.red),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 10),
+                                      child: Text('Excluir',
+                                          style:
+                                              TextStyle(color: Colors.black)),
+                                    )
+                                  ]),
+                                )
+                              ];
+                            },
+                          ),
+                        ));
+                  }));
         }
 
         return Center(
@@ -427,7 +437,7 @@ class _ExpandableFabState extends State<ExpandableFab>
           duration: const Duration(milliseconds: 250),
           child: FloatingActionButton(
             onPressed: _toggle,
-            child: const Icon(Icons.create),
+            child: const Icon(Icons.inventory_2_outlined),
           ),
         ),
       ),
