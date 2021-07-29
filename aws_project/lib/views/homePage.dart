@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:aws_project/views/createProductPage.dart';
 import 'package:aws_project/views/editProductPage.dart';
+import 'package:aws_project/utils/formatUtil.dart';
 
 enum ListAction { edit, delete }
 
@@ -17,6 +18,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  // Variables
+  FormatUtil formatUtil = new FormatUtil();
+
   void _createProduct() {
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => CreateProductPage()));
@@ -127,7 +131,7 @@ class _HomePageState extends State<HomePage> {
       future: _listProducts(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {
-          return Center(child: Text('Erro ao carregar os produtos'));
+          return Center(child: Text('Erro ao carregar os produtos!'));
         }
 
         if (snapshot.hasData) {
@@ -138,7 +142,9 @@ class _HomePageState extends State<HomePage> {
                   leading: Icon(Icons.wallpaper_rounded,
                       size: 45, color: Colors.deepPurple),
                   title: Text(snapshot.data![index]['nome']),
-                  subtitle: Text(snapshot.data![index]['descricao']),
+                  subtitle: Text(snapshot.data![index]['descricao'] +
+                      '\n' +
+                      formatUtil.formatMoney(snapshot.data![index]['preco'])),
                   trailing: PopupMenuButton<ListAction>(
                     onSelected: (ListAction result) async {
                       switch (result) {
