@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
@@ -21,6 +22,21 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   // Variables
   FormatUtil formatUtil = new FormatUtil();
+  bool _connectionStatus = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initMethodAsync();
+  }
+
+  void _initMethodAsync() async {
+    final _status = await _checkConection();
+
+    setState(() {
+      _connectionStatus = _status;
+    });
+  }
 
   void _createProduct() {
     Navigator.push(
@@ -34,9 +50,17 @@ class _HomePageState extends State<HomePage> {
             builder: (context) => EditProductPage(product: data)));
   }
 
-  // void _testConection() {
-
-  // }
+  Future<bool> _checkConection() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty)
+        return false;
+      else
+        return true;
+    } on SocketException catch (_) {
+      return true;
+    }
+  }
 
   Future _showDeleteDialog(BuildContext context, String id, String nome) async {
     return await showDialog(
@@ -120,6 +144,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _homeConstruct() {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text('Lista de Produtos'),
       ),
@@ -157,14 +182,23 @@ class _HomePageState extends State<HomePage> {
     return FutureBuilder<List>(
       future: _listProducts(),
       builder: (context, snapshot) {
+        if (_connectionStatus) {
+          return Center(
+              child: Row(children: <Widget>[
+            Icon(Icons.signal_wifi_off_outlined, color: Colors.red),
+            Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Text('sem internet'))
+          ]));
+        }
+
         if (snapshot.hasError) {
           return Center(
               child: Row(children: <Widget>[
-            Icon(Icons.edit, color: Colors.orange),
+            Icon(Icons.warning_amber_outlined, color: Colors.red),
             Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Text(
-                    'Falha ao conectar com o servidor, verifique sua conexão com a internet!'))
+                child: Text('Sem dados'))
           ]));
         }
 
