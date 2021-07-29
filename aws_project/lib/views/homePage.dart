@@ -121,10 +121,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<List> _listProducts() async {
-    // var _url = Uri.parse(
-    //     'https://2zdjuu605f.execute-api.us-east-1.amazonaws.com/prod/products');
-
-    var _url = Uri.parse('https://2zdjuu605f');
+    var _url = Uri.parse(
+        'https://2zdjuu605f.execute-api.us-east-1.amazonaws.com/prod/products');
 
     var response = await http.get(_url);
 
@@ -160,7 +158,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           ActionButton(
-            // onPressed: () => _createProduct(),
+            onPressed: () => _listProductsConstruct(),
             icon: const Icon(
               Icons.sync_sharp,
               color: Colors.white,

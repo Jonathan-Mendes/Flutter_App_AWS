@@ -15,4 +15,10 @@ class FormatUtil {
 
     return moneyFormatterOutput.symbolOnLeft;
   }
+
+  double formatCurency(String currency) {
+    currency = currency.replaceAll(RegExp(r'[R$ ]'), '');
+    currency = currency.replaceAll(RegExp(r'[,]'), '.');
+    return double.parse(currency);
+  }
 }

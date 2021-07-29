@@ -30,6 +30,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^0.13.3
   flutter_money_formatter: ^0.8.3
+  flutter_masked_text2: ^0.9.1
 
 dev_dependencies:
   flutter_test:

@@ -7,13 +7,10 @@
         {
             "name": "aws_project",
             "request": "launch",
-            "type": "dart"
-        },
-        {
-            "name": "aws_project (profile mode)",
-            "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "args": [
+                "--no-sound-null-safety"
+            ],
         }
     ]
 }
