@@ -33,6 +33,42 @@ class _EditProductPageState extends State<EditProductPage> {
     super.initState();
   }
 
+  Future _showEditDialog() async {
+    return await showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext ctx) {
+          return AlertDialog(
+            title: Text('Editar Produto'),
+            content: Container(
+              child: Text('Você realmente deseja salvar estas alterações?'),
+            ),
+            actions: <Widget>[
+              ElevatedButton(
+                  child: Text('Sim'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.green,
+                    onPrimary: Colors.white,
+                    textStyle: TextStyle(color: Colors.black, fontSize: 15),
+                  ),
+                  onPressed: () {
+                    // _deleteProduct(id);
+                  }),
+              ElevatedButton(
+                  child: Text('Não'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.red,
+                    onPrimary: Colors.white,
+                    textStyle: TextStyle(color: Colors.black, fontSize: 15),
+                  ),
+                  onPressed: () {
+                    Navigator.of(ctx).pop(false);
+                  })
+            ],
+          );
+        });
+  }
+
   // View
   @override
   Widget build(BuildContext context) {
@@ -56,28 +92,18 @@ class _EditProductPageState extends State<EditProductPage> {
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: TextFormField(
-                  controller: _codProd,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    labelText: 'Código',
-                    labelStyle: TextStyle(
-                      color: Colors.black38,
-                      fontSize: 18,
-                    ),
+                controller: _codProd,
+                enabled: false,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  labelText: 'Código',
+                  labelStyle: TextStyle(
+                    color: Colors.black38,
+                    fontSize: 18,
                   ),
-                  style: TextStyle(fontSize: 15),
-                  onChanged: (String value) async {
-                    if (value == widget.product['id']) {
-                      setState(() {
-                        _edited = false;
-                      });
-                      return;
-                    } else {
-                      setState(() {
-                        _edited = true;
-                      });
-                    }
-                  })),
+                ),
+                style: TextStyle(fontSize: 15, color: Colors.black38),
+              )),
           Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: TextFormField(
@@ -92,7 +118,7 @@ class _EditProductPageState extends State<EditProductPage> {
                   ),
                   style: TextStyle(fontSize: 15),
                   onChanged: (String value) async {
-                    if (value == widget.product['id']) {
+                    if (value == widget.product['nome']) {
                       setState(() {
                         _edited = false;
                       });
@@ -117,7 +143,7 @@ class _EditProductPageState extends State<EditProductPage> {
                   ),
                   style: TextStyle(fontSize: 15),
                   onChanged: (String value) async {
-                    if (value == widget.product['id']) {
+                    if (value == widget.product['descricao']) {
                       setState(() {
                         _edited = false;
                       });
@@ -142,7 +168,7 @@ class _EditProductPageState extends State<EditProductPage> {
                   ),
                   style: TextStyle(fontSize: 15),
                   onChanged: (String value) async {
-                    if (value == widget.product['id']) {
+                    if (value == widget.product['preco']) {
                       setState(() {
                         _edited = false;
                       });
@@ -168,7 +194,11 @@ class _EditProductPageState extends State<EditProductPage> {
                             textStyle:
                                 TextStyle(color: Colors.black, fontSize: 20),
                           ),
-                          onPressed: _edited ? () {} : null))))
+                          onPressed: _edited
+                              ? () {
+                                  _showEditDialog();
+                                }
+                              : null))))
         ],
       ),
     );

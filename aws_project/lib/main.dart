@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/material/colors.dart';
 import 'views/homePage.dart';
 
 void main() {
@@ -11,8 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'AWS APP',
       theme: ThemeData(
-          primarySwatch: Colors.deepPurple,
-          scaffoldBackgroundColor: Colors.white),
+          primarySwatch: Colors.red, scaffoldBackgroundColor: Colors.white),
       home: HomePage(),
     );
   }
