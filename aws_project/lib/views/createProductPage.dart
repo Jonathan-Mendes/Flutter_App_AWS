@@ -86,18 +86,17 @@ class _CreateProductPageState extends State<CreateProductPage> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: TextFormField(
-                  controller: _codProd,
-                  keyboardType: TextInputType.text,
-                  decoration: InputDecoration(
-                    labelText: 'Código',
-                    labelStyle: TextStyle(
-                      color: Colors.red,
-                      fontSize: 18,
+                    controller: _codProd,
+                    keyboardType: TextInputType.text,
+                    decoration: InputDecoration(
+                      labelText: 'Código',
+                      labelStyle: TextStyle(
+                        color: Colors.red,
+                        fontSize: 18,
+                      ),
                     ),
-                  ),
-                  style: TextStyle(fontSize: 15),
-                  textCapitalization: TextCapitalization.characters,
-                )),
+                    style: TextStyle(fontSize: 15),
+                    textCapitalization: TextCapitalization.characters)),
             Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -117,17 +116,18 @@ class _CreateProductPageState extends State<CreateProductPage> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: TextFormField(
-                    controller: _descProd,
-                    keyboardType: TextInputType.text,
-                    decoration: InputDecoration(
-                      labelText: 'Descrição',
-                      labelStyle: TextStyle(
-                        color: Colors.red,
-                        fontSize: 18,
-                      ),
+                  controller: _descProd,
+                  keyboardType: TextInputType.text,
+                  decoration: InputDecoration(
+                    labelText: 'Descrição',
+                    labelStyle: TextStyle(
+                      color: Colors.red,
+                      fontSize: 18,
                     ),
-                    style: TextStyle(fontSize: 15),
-                    textCapitalization: TextCapitalization.sentences)),
+                  ),
+                  style: TextStyle(fontSize: 15),
+                  textCapitalization: TextCapitalization.sentences,
+                )),
             Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),

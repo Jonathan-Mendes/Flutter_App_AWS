@@ -158,7 +158,12 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           ActionButton(
-            onPressed: () => _listProductsConstruct(),
+            onPressed: () => {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) => super.widget))
+            },
             icon: const Icon(
               Icons.sync_sharp,
               color: Colors.white,
