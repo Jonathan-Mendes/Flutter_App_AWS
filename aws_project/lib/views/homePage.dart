@@ -184,22 +184,46 @@ class _HomePageState extends State<HomePage> {
       builder: (context, snapshot) {
         if (_connectionStatus) {
           return Center(
-              child: Row(children: <Widget>[
-            Icon(Icons.signal_wifi_off_outlined, color: Colors.red),
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Text('sem internet'))
-          ]));
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(children: <Widget>[
+                      Icon(
+                        Icons.signal_wifi_off_outlined,
+                        color: Colors.red,
+                        size: 70,
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Text('Verifique sua conexão de internet!',
+                              style: TextStyle(fontSize: 17)))
+                    ])),
+              ]));
         }
 
         if (snapshot.hasError) {
           return Center(
-              child: Row(children: <Widget>[
-            Icon(Icons.warning_amber_outlined, color: Colors.red),
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Text('Sem dados'))
-          ]));
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(children: <Widget>[
+                      Icon(
+                        Icons.warning_amber_outlined,
+                        color: Colors.red,
+                        size: 70,
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Text('Falha ao carregar lista de produtos!',
+                              style: TextStyle(fontSize: 17)))
+                    ])),
+              ]));
         }
 
         if (snapshot.hasData) {
