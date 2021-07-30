@@ -1,5 +1,6 @@
+// @dart=2.9
+
 import 'package:flutter/material.dart';
-import 'package:flutter/src/material/colors.dart';
 import 'views/pages/homePage.dart';
 
 void main() {
