@@ -12,11 +12,11 @@ class EditProductPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new _EditProductPageState();
+    return new _EditProductState();
   }
 }
 
-class _EditProductPageState extends State<EditProductPage> {
+class _EditProductState extends State<EditProductPage> {
   // Variables
   bool _edited = false;
   final FormatUtil formatUtil = new FormatUtil();

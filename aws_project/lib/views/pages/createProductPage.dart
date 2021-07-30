@@ -10,11 +10,11 @@ class CreateProductPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new _CreateProductPageState();
+    return new _CreateProductState();
   }
 }
 
-class _CreateProductPageState extends State<CreateProductPage> {
+class _CreateProductState extends State<CreateProductPage> {
   // Variables
   final FormatUtil formatUtil = new FormatUtil();
   final ProductController productController = new ProductController();

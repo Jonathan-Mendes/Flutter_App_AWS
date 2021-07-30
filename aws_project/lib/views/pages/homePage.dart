@@ -1,11 +1,12 @@
 import 'package:aws_project/controllers/productController.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
-import 'package:aws_project/views/pages/createProductPage.dart';
 import 'package:aws_project/views/pages/editProductPage.dart';
+import 'package:aws_project/views/pages/createProductPage.dart';
+import 'package:aws_project/views/pages/aboutAppPage.dart';
+import 'package:aws_project/views/components/dialogComponent.dart';
 import 'package:aws_project/utils/formatUtil.dart';
 import 'package:aws_project/services/checkConnectionService.dart';
-import 'package:aws_project/views/components/dialogComponent.dart';
 
 enum ListAction { edit, delete }
 
@@ -14,11 +15,11 @@ class HomePage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new _HomePageState();
+    return new _HomeState();
   }
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeState extends State<HomePage> {
   // Variables
   bool _connectionStatus = false;
   FormatUtil formatUtil = new FormatUtil();
@@ -55,6 +56,16 @@ class _HomePageState extends State<HomePage> {
             builder: (context) => EditProductPage(product: data)));
   }
 
+  void _refresh() {
+    Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (BuildContext context) => super.widget));
+  }
+
+  void _about() {
+    Navigator.push(context,
+        MaterialPageRoute(builder: (BuildContext context) => AboutAppPage()));
+  }
+
   // View
   @override
   Widget build(BuildContext context) {
@@ -75,18 +86,14 @@ class _HomePageState extends State<HomePage> {
             distance: 112.0,
             children: [
               ActionButton(
+                onPressed: () => _about(),
                 icon: const Icon(
                   Icons.info_outlined,
                   color: Colors.white,
                 ),
               ),
               ActionButton(
-                onPressed: () => {
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => super.widget))
-                },
+                onPressed: () => _refresh(),
                 icon: const Icon(
                   Icons.sync_sharp,
                   color: Colors.white,
