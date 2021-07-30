@@ -17,7 +17,7 @@ class FormatUtil {
   }
 
   double formatCurency(String currency) {
-    currency = currency.replaceAll(RegExp(r'[R$ ]'), '');
+    currency = currency.replaceAll(RegExp(r'[R$. ]'), '');
     currency = currency.replaceAll(RegExp(r'[,]'), '.');
     return double.parse(currency);
   }

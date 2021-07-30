@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:aws_project/controllers/productController.dart';
 import 'package:aws_project/views/homePage.dart';
 import 'package:aws_project/utils/formatUtil.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
@@ -17,47 +18,25 @@ class CreateProductPage extends StatefulWidget {
 
 class _CreateProductPageState extends State<CreateProductPage> {
   // Variables
+  final ProductController productController = new ProductController();
+  final FormatUtil formatUtil = new FormatUtil();
   final TextEditingController _codProd = new TextEditingController();
   final TextEditingController _nameProd = new TextEditingController();
   final TextEditingController _descProd = new TextEditingController();
   final _valueProd = new MoneyMaskedTextController(leftSymbol: 'R\$ ');
 
   // Methods
-  Future _post(ProductModel product) async {
-    var _url = Uri.parse(
-        'https://2zdjuu605f.execute-api.us-east-1.amazonaws.com/prod/product');
-
-    Map<String, String> _headers = {
-      'Content-Type': 'application/json; charset=UTF-8'
-    };
-
-    var _body = jsonEncode(<String, String>{
-      'id': product.id.toString(),
-      'nome': product.nome,
-      'descricao': product.descricao,
-      'image':
-          'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi1.wp.com%2Fwww.clicandoeandando.com%2Fwp-content%2Fuploads%2F2016%2F06%2FComo-tirar-fotos-melhores-com-qualquer-camera-plano-de-fundo.jpg&f=1&nofb=1',
-      'preco': product.preco.toString()
-    });
-
-    var response = await http.post(_url, headers: _headers, body: _body);
-
-    if (response.statusCode == 201) {
-      Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (BuildContext context) => HomePage()));
-    } else
-      throw Exception("Erro criar produto no servidor");
-  }
-
   void _save() async {
-    FormatUtil formatUtil = new FormatUtil();
-
     double _valueProdFormated = formatUtil.formatCurency(_valueProd.text);
 
-    ProductModel product = new ProductModel(
+    ProductModel _product = new ProductModel(
         _codProd.text, _nameProd.text, _descProd.text, _valueProdFormated);
 
-    _post(product);
+    bool _response = await productController.createProduct(_product);
+
+    if (_response)
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 
   // View

@@ -267,7 +267,7 @@ class _HomePageState extends State<HomePage> {
                                 PopupMenuItem<ListAction>(
                                   value: ListAction.edit,
                                   child: Row(children: <Widget>[
-                                    Icon(Icons.edit, color: Colors.orange),
+                                    Icon(Icons.edit, color: Colors.blue),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 10),

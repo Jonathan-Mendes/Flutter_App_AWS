@@ -3,6 +3,7 @@ import 'package:aws_project/views/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:aws_project/models/productModel.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 
 class EditProductPage extends StatefulWidget {
   const EditProductPage({Key? key, required this.product}) : super(key: key);
@@ -18,17 +19,17 @@ class EditProductPage extends StatefulWidget {
 class _EditProductPageState extends State<EditProductPage> {
   // Variables
   bool _edited = false;
-  TextEditingController _codProd = new TextEditingController();
-  TextEditingController _nameProd = new TextEditingController();
-  TextEditingController _descProd = new TextEditingController();
-  TextEditingController _valueProd = new TextEditingController();
+  final TextEditingController _codProd = new TextEditingController();
+  final TextEditingController _nameProd = new TextEditingController();
+  final TextEditingController _descProd = new TextEditingController();
+  final _valueProd = new MoneyMaskedTextController(leftSymbol: 'R\$ ');
 
   @override
   void initState() {
     _codProd.text = widget.product['id'];
     _nameProd.text = widget.product['nome'];
     _descProd.text = widget.product['descricao'];
-    _valueProd.text = widget.product['preco'].toString();
+    _valueProd.text = widget.product['preco'];
 
     super.initState();
   }
