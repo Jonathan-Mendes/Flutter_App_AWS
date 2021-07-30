@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:aws_project/controllers/productController.dart';
-import 'package:aws_project/views/homePage.dart';
+import 'package:aws_project/views/pages/homePage.dart';
 import 'package:aws_project/utils/formatUtil.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:aws_project/models/productModel.dart';
@@ -18,8 +16,8 @@ class CreateProductPage extends StatefulWidget {
 
 class _CreateProductPageState extends State<CreateProductPage> {
   // Variables
-  final ProductController productController = new ProductController();
   final FormatUtil formatUtil = new FormatUtil();
+  final ProductController productController = new ProductController();
   final TextEditingController _codProd = new TextEditingController();
   final TextEditingController _nameProd = new TextEditingController();
   final TextEditingController _descProd = new TextEditingController();
@@ -27,7 +25,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
 
   // Methods
   void _save() async {
-    double _valueProdFormated = formatUtil.formatCurency(_valueProd.text);
+    String _valueProdFormated = formatUtil.formatCurency(_valueProd.text);
 
     ProductModel _product = new ProductModel(
         _codProd.text, _nameProd.text, _descProd.text, _valueProdFormated);
@@ -49,7 +47,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
-          title: Text('Criar Novo Produto'),
+          title: Text('Novo Produto'),
         ),
         body: Container(color: Colors.white, child: _formConstruct()));
   }

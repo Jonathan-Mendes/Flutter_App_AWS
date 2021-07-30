@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 
 class FormatUtil {
@@ -16,9 +17,9 @@ class FormatUtil {
     return moneyFormatterOutput.symbolOnLeft;
   }
 
-  double formatCurency(String currency) {
+  String formatCurency(String currency) {
     currency = currency.replaceAll(RegExp(r'[R$. ]'), '');
     currency = currency.replaceAll(RegExp(r'[,]'), '.');
-    return double.parse(currency);
+    return currency;
   }
 }

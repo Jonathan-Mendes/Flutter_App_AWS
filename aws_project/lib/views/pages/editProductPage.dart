@@ -1,9 +1,9 @@
-import 'dart:convert';
-import 'package:aws_project/views/homePage.dart';
+import 'package:aws_project/views/pages/homePage.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:aws_project/utils/formatUtil.dart';
 import 'package:aws_project/models/productModel.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
+import 'package:aws_project/controllers/productController.dart';
 
 class EditProductPage extends StatefulWidget {
   const EditProductPage({Key? key, required this.product}) : super(key: key);
@@ -19,6 +19,8 @@ class EditProductPage extends StatefulWidget {
 class _EditProductPageState extends State<EditProductPage> {
   // Variables
   bool _edited = false;
+  final FormatUtil formatUtil = new FormatUtil();
+  final ProductController productController = new ProductController();
   final TextEditingController _codProd = new TextEditingController();
   final TextEditingController _nameProd = new TextEditingController();
   final TextEditingController _descProd = new TextEditingController();
@@ -32,6 +34,22 @@ class _EditProductPageState extends State<EditProductPage> {
     _valueProd.text = widget.product['preco'];
 
     super.initState();
+  }
+
+  // Methods
+  void _save() async {
+    String _valueProdFormated = formatUtil.formatCurency(_valueProd.text);
+
+    ProductModel _product = new ProductModel(
+        _codProd.text, _nameProd.text, _descProd.text, _valueProdFormated);
+
+    print(_product.preco);
+
+    bool _response = await productController.editProduct(_product);
+
+    if (_response)
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 
   Future _showEditDialog() async {
@@ -53,7 +71,7 @@ class _EditProductPageState extends State<EditProductPage> {
                     textStyle: TextStyle(color: Colors.black, fontSize: 15),
                   ),
                   onPressed: () {
-                    // _deleteProduct(id);
+                    _save();
                   }),
               ElevatedButton(
                   child: Text('Não'),
